@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                http://cxf.apache.org/jaxws 
+           http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- 配置spring启用 annotation的配置方式 -->
+	<context:annotation-config />
+
+	<!-- spring扫描com.yy包下的所有类，使加了注释的类，加载为spring管理的bean对象 -->
+	<context:component-scan base-package="com.yy" />
+
+	<!-- WebService设置开始 -->
+
+	
+
+	<!-- WebService设置结束 -->
+
+	<!-- spring管理dbcp数据库连接池配置 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:jdbc.properties</value>
+		</property>
+	</bean>
+
+	<!-- 连接池读取配置文件 -->
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- <property name="initialSize" value="${connection.initialSize}"></property> -->
+		<property name="maxActive" value="${connection.maxActive}"></property>
+		<property name="maxIdle" value="${connection.maxIdle}"></property>
+		<property name="minIdle" value="${connection.minIdle}"></property>
+		<property name="maxWait" value="${connection.maxWait}"></property>
+		<property name="removeAbandoned" value="${connection.removeAbandoned}"></property>
+		<property name="removeAbandonedTimeout" value="${connection.removeAbandonedTimeout}"></property>
+		<property name="logAbandoned" value="${connection.logAbandoned}"></property>
+	</bean>
+
+	<!-- sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.yy.model.TbUser</value>
+				<value>com.yy.model.TbCompany</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="current_session_context_class">thread</prop>
+				<prop key="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!-- <prop key="hibernate.show_sql">true</prop> -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- <prop key="hibernate.format_sql">true</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<!-- 用annotation的方式配置Transaction -->
+	<!--事务annotation配置，只要在方法前加上注释就可以实现数据库事务 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+
+</beans>

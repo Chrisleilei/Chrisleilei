@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	id="WebApp_9" version="2.4">
+	<display-name>Struts Blank</display-name>
+	
+  	
+  	<session-config>
+    	<session-timeout>15</session-timeout>
+  	</session-config>
+
+	<!-- Spring Framework -->
+	<!-- 作用：该元素用来声明应用范围(整个WEB项目)内的上下文初始化参数 -->
+	<!-- param-name 设定上下文的参数名称。必须是唯一名称 -->
+	<!-- param-value设定的参数名称的值 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>  
+        	WEB-INF/classes/spring*.xml  
+   		</param-value>
+	</context-param>
+	
+	<!-- 该元素用来注册一个监听器类。可以收到事件什么时候发生以及用什么作为响应的通知 -->
+	<!-- 事件监听程序在建立，修改和删除过程中或servlet环境时得到通知。常与context-param联合使用 -->
+ 	<listener>  
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  <!--加了之后能在自己所定义的servelt类中使用spring的容器功能 -->
+    </listener> 
+	<!-- struts Framework  -->  
+	<!-- 用于指定WEB容器的过滤器，在请求和响应对象在Servelt处理之前和之后，可以通过此过滤器对两个对象进行处理 -->
+    <filter>  
+        <filter-name>struts2</filter-name>  
+        <filter-class>  
+          org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter  
+        </filter-class>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>struts2</filter-name>  
+        <url-pattern>*.action</url-pattern> 
+    </filter-mapping>
+
+	<welcome-file-list>
+    	<welcome-file>UserLogin.html</welcome-file>
+  	</welcome-file-list>
+
+	<!--  cxf webservice -->
+   
+</web-app>

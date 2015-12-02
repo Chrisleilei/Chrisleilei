@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- 外部样式-->
+<link rel="stylesheet" type="text/css" href="../CSS/UserRegister.css" />
+<script type="text/javascript">
+    //定义了城市的二维数组，里面的顺序跟省份的顺序是相同的。通过selectedIndex获得省份的下标值来得到相应的城市数组 
+    var arraycity = [ [ "北京", "天津", "上海", "重庆", "香港", "澳门" ], [ "南京", "苏州", "扬州", "无锡", "徐州", "常州", "南通", "连云港", "淮安", "盐城", "镇江", "泰州", "宿迁" ],
+            [ "杭州", "宁波", "温州", "嘉兴", "湖州", "绍兴", "金华", "衢州", "舟山", "台州", "丽水" ] ];
+    function getCity() {
+        //利用元素的ID属性，获得省份下拉框的对象 
+        var sltProvince = document.getElementById("HomePlace");
+        //获得城市下拉框的对象 
+        var sltCity = document.getElementById("UserCity");
+        //得到对应省份的城市数组 
+        var provinceCity = arraycity[sltProvince.selectedIndex - 1];
+        //清空城市下拉框，仅留提示选项 
+        sltCity.length = 1;
+        //将城市数组中的值填充到城市下拉框中 
+        for (var i = 0; i < provinceCity.length; i++) {
+            sltCity[i + 1] = new Option(provinceCity[i], provinceCity[i]);
+        }
+    }
+    function  UserCode1() {
+		if(document.getElementById("UserCode").value=="不能输入特殊字符")	
+			document.getElementById("UserCode").value="";
+	}
+   
+    
+    function Submit() {
+    	if(document.getElementById("UserCode").value=="")
+		{
+			alert("用户名不能为空");
+			document.getElementById("UserCode").focus();
+		}
+    	else if(document.getElementById("UserPwd").value==""){
+    		alert("密码不能为空");
+			document.getElementById("UserPwd").focus();
+    		
+    	}
+    	else if(document.getElementById("ConfirmPwd").value==""){
+    		alert("确认密码不能为空");
+			document.getElementById("ConfirmPwd").focus();
+    	}
+	}
+    function CheckPwd() {
+		var reg=new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+		var pwd=document.getElementById("UserPwd").value;
+		if(pwd){
+			if(!reg.test(document.getElementById("UserPwd").value))
+			{
+				alert("密码格式不正确");
+				document.getElementById("UserPwd").value="";
+				document.getElementById("UserPwd").focus();
+			}
+		}
+	}
+    function CheckPwd1() {
+    	var reg=new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+		var pwd=document.getElementById("UserPwd").value;
+		var confirm=document.getElementById("ConfirmPwd").value;
+		if(pwd&&confirm){
+			if(pwd==confirm){
+				
+			}
+			else{
+				alert("两次输入密码不同");
+				document.getElementById("ConfirmPwd").value="";
+				document.getElementById("ConfirmPwd").focus();
+			}
+		}
+	}
+    
+    
+</script>
+<title>注册页面</title>
+</head>
+<body>
+    <div align="center">
+        <form method="get" name="loginform" action="">
+            <table border="0" width="600" height="80">
+                <tr>
+                    <td width="50%" align="left" colspan="2"><p>用户注册账号</p></td>
+                </tr>
+            </table>
+            <table class="registerTable" width="600">
+                <tr>
+                    <td width="30%" align="right" height="60">
+                        <p class="defaultText">用户名称：</p>
+                    </td>
+                    <td width="70%" align="left"><input class="registerText" value="不能输入特殊字符"
+                        name="UserCode" id="UserCode" type="text"  onfocus="UserCode1()" ></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">设置密码：</p>
+                        
+                    </td>
+                    <td align="left"><input class="registerText" name="UserPwd" id="UserPwd" type="password" value="" onblur="CheckPwd()" >
+                    <span class="tp_txt"  >密码必须包含数字和字母</span></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">确认密码：</p>
+                    </td>
+                    <td align="left"><input class="registerText" id="ConfirmPwd"
+                        name="ConfirmPwd" type="password" value="" onblur="CheckPwd1()">
+                        <span class="tp_txt"  >请确认两次密码输入相同</span></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">性别：</p>
+                    </td>
+                    <td align="left"><input id="UserSex" name="UserSex" type="radio"
+                        value="1"><span class="defaultText">男</span> <input
+                        id="UserSex" name="UserSex" type="radio" value="2"><span
+                        class="defaultText">女</span></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">籍贯：</p>
+                    </td>
+                    <td align="left"><select class="registerSelect"
+                        name="HomePlace" id="HomePlace" onchange="getCity()">
+                            <option value="null" selected="selected">所在省份</option>
+                            <option value="直辖市">直辖市</option>
+                            <option value="江苏">江苏</option>
+                            <option value="浙江">浙江</option>
+                    </select> <select class="registerSelect" id="UserCity" name="UserCity">
+                            <option selected="selected" value="null">所在城市</option>
+                    </select></td>
+                </tr>
+                
+                <tr>
+                    <td align="right" height="100">
+                        <p class="defaultText">出生日期：</p>
+                    </td>
+                    <td align="left">
+							<input type="text" name="UserBirthday" id="UserBirthday" class=""/>
+					<span class="tp_txt"  >请按此格式输入"1995-03-10"</span>		
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right" height="130">
+                        <p class="defaultText">备注信息：</p>
+                    </td>
+                    <td align="left"><textarea class="registerText" rows="4"
+                            cols="45" name="UserRemarks" id="UserRemarks">
+                    </textarea></td>
+                </tr>
+                
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">联系电话：</p>
+                    </td>
+                    <td align="left">
+						<input type="text" name="UserPhone" id="UserPhone" class=""/>
+						</td>
+                </tr>
+                
+                <tr>
+                    <td align="center" height="60"> </td>
+                    <td align="left" height="60"><input class="registerButton"
+                        id="registerUser" name="registerUser" type="submit" value="立即注册" onclick="Submit()"></td>
+                </tr>
+            </table>
+        </form>
+        <p style="font-family: 幼圆; font-size: 15px; color: gray;">版权所有 © 2014-2015
+            YY招聘网</p>
+    </div>
+</body>
+</html>

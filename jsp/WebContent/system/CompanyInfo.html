@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title>公司信息</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="../jquery/jquery-1.11.3.js"></script>
+	<link rel="stylesheet" href="../CSS/companyInfo.css">
+	<style >
+	 #In-table{
+	 	border: 1;
+		width:500px;
+		height:50px;
+		margin-top:20px;
+	 }
+	</style>
+</head>
+<body>
+	<div id="Header">
+		<div class="Header-Logo">
+			<a href="http://www.baidu.com">
+				<img src="../images/yy.png" alt="YY招聘网">
+			</a>
+		</div>
+		<div class="Header-Logo-Right">
+			<ul>
+				<li>
+					<a href="http://www.baidu.com">我的档案</a>
+				</li><li>
+					<a id="getCompany" href="javascript:void(0)" onclick="$.getCompanyInfo()">公司</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="Content">
+		<div class="Content-Background"></div>
+		<div class="Content-Background-Content">
+			<div class="Input-Num">
+				每页显示<input type="text" value="5" id="inputNum">
+			<div>
+			<div id="Main-Div">
+			</div>
+			<div class="First-Next">
+				<input type="button" value="首页" id="firstPage" />
+				<input type="button" value="上一页" id="prePage">
+				<input type="button" value="下一页" id="nextPage">
+				<input type="button" value="尾页" id="lastPage"><br/>
+				总共<span id="pageNum"></span>页
+				当前第<span id="pageNow"></span>页 
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	$(document).ready(function(){
+		var totalNum;//总的公司数量
+		var totalPage;//总的页数
+		var companyJson;//返回的公司属性，采用json类型
+		var curPage;//当前在哪页
+		//$.getCompanyInfo = function(){
+			$.ajax({
+				type : "GET",
+				url: "../company/getAllCompany.action",
+				dataType : "json",
+				success:function(data){
+					totalNum = data.num;
+					companyJson = data;
+					$.makeDiv();
+				},
+				error:function(jqXHR){
+					alert("发生错误： "+jqXHR.status);
+				}
+			});
+		//}
+		
+		$.makeDiv = function(){
+			var numInput =  document.getElementById("inputNum").value;//每页要显示的个数
+			//var cTable = document.getElementById("companyTable");//表格
+			var fPage = document.getElementById("firstPage");//首页
+			var pPage = document.getElementById("prePage");//前一页
+			var nPage = document.getElementById("nextPage");//后一页
+			var lPage = document.getElementById("lastPage");//尾页
+			var numPage = document.getElementById("pageNum");//总的页数
+			var nowPage = document.getElementById("pageNow");//当前页
+			var mainDiv = document.getElementById("Main-Div");//DIV
+			if(totalNum % numInput == 0){
+				totalPage = totalNum / numInput;
+			}
+			else{
+				totalPage = totalNum / numInput + 1;
+				totalPage = Math.floor(totalPage);//四舍五入
+			}
+			numPage.innerHTML = totalPage;//赋值
+			lPage.onclick = function(){
+				mainDiv.innerHTML = "";
+				curPage = totalPage;
+				var mark = totalNum - (totalPage-1)*numInput;
+				nowPage.innerHTML = totalPage;
+				for(var i=1;i<=mark;i++){
+					var mCompanyId = companyJson.data[(totalPage-1)*numInput+i-1].companyId;
+					var mCompanyIntor = companyJson.data[(totalPage-1)*numInput+i-1].companyIntro;
+					var mCompanyManName = companyJson.data[(totalPage-1)*numInput+i-1].companyManName;
+					var mCompanyManPwd = companyJson.data[(totalPage-1)*numInput+i-1].companyManPwd;
+					var mCompanyName = companyJson.data[(totalPage-1)*numInput+i-1].companyName;
+					var mCompanyPhone = companyJson.data[(totalPage-1)*numInput+i-1].companyPhone;
+
+					var myDiv = document.createElement("div");//用来显示公司的名称
+					myDiv.className = "myDivClass";
+					var myH5 = document.createElement("h5");//用来显示公司的描述
+					var pPhone = document.createElement("p");//联系方式
+					var pPeople = document.createElement("p");//联系人
+					var pIntor = document.createElement("p");//公司介绍
+					myH5.innerHTML =  mCompanyName;
+					pIntor.innerHTML = mCompanyIntor;
+					pPeople.innerHTML = mCompanyManName;
+					pPhone.innerHTML = mCompanyPhone;
+					myDiv.appendChild(myH5);
+					myDiv.appendChild(pIntor);
+					myDiv.appendChild(pPeople);
+					myDiv.appendChild(pPhone);
+					mainDiv.appendChild(myDiv);
+				}
+				mainDiv.appendChild(myDiv);
+				console.log(mainDiv);
+			}
+			
+			$.makeFirstPage = function(){//首页
+				mainDiv.innerHTML = "";
+			if(totalNum < numInput){
+				lPage.onclick();
+			}
+			else{
+			nowPage.innerHTML = 1;
+			curPage = 1;
+			for(var i=0;i<numInput;i++){
+				var mCompanyId = companyJson.data[i].companyId;
+				var mCompanyIntor = companyJson.data[i].companyIntro;
+				var mCompanyManName = companyJson.data[i].companyManName;
+				var mCompanyManPwd = companyJson.data[i].companyManPwd;
+				var mCompanyName = companyJson.data[i].companyName;
+				var mCompanyPhone = companyJson.data[i].companyPhone;
+				var myDiv = document.createElement("div");//用来显示公司的名称
+				myDiv.className = "myDivClass";
+				var myH5 = document.createElement("h5");//用来显示公司的描述
+				var pPhone = document.createElement("p");//联系方式
+				var pPeople = document.createElement("p");//联系人
+				var pIntor = document.createElement("p");//公司介绍
+				myH5.innerHTML =  mCompanyName;
+				pIntor.innerHTML = mCompanyIntor;
+				pPeople.innerHTML = mCompanyManName;
+				pPhone.innerHTML = mCompanyPhone;
+				
+				myDiv.appendChild(myH5);
+				myDiv.appendChild(pIntor);
+				myDiv.appendChild(pPeople);
+				myDiv.appendChild(pPhone);
+				mainDiv.appendChild(myDiv);
+			}
+			mainDiv.appendChild(myDiv);
+			}
+			}
+			$.makeFirstPage();
+			fPage.onclick = function(){
+				$.makeFirstPage();
+			}
+			
+			pPage.onclick = function(){//点击前一页的函数
+				if(curPage == 1){
+					alert("已经是首页！");
+				}
+				else{
+					mainDiv.innerHTML = "";
+					curPage-=1;
+					nowPage.innerHTML = curPage;
+					for(var i=1;i<=numInput;i++){
+						var mCompanyId = companyJson.data[i+numInput*(curPage-1)-1].companyId;
+						var mCompanyIntor = companyJson.data[i+numInput*(curPage-1)-1].companyIntro;
+						var mCompanyManName = companyJson.data[i+numInput*(curPage-1)-1].companyManName;
+						var mCompanyManPwd = companyJson.data[i+numInput*(curPage-1)-1].companyManPwd;
+						var mCompanyName = companyJson.data[i+numInput*(curPage-1)-1].companyName;
+						var mCompanyPhone = companyJson.data[i+numInput*(curPage-1)-1].companyPhone;
+						var myDiv = document.createElement("div");//用来显示公司的名称
+						myDiv.className = "myDivClass";
+						var myH5 = document.createElement("h5");//用来显示公司的描述
+						var pPhone = document.createElement("p");//联系方式
+						var pPeople = document.createElement("p");//联系人
+						var pIntor = document.createElement("p");//公司介绍
+						myH5.innerHTML =  mCompanyName;
+						pIntor.innerHTML = mCompanyIntor;
+						pPeople.innerHTML = mCompanyManName;
+						pPhone.innerHTML = mCompanyPhone;
+						
+						myDiv.appendChild(myH5);
+						myDiv.appendChild(pIntor);
+						myDiv.appendChild(pPeople);
+						myDiv.appendChild(pPhone);
+						mainDiv.appendChild(myDiv);
+					}
+					mainDiv.appendChild(myDiv);
+				}
+			}
+			
+			nPage.onclick = function(){//点击后一页的函数
+				if(curPage == totalPage){
+					alert("已经是最后一页！");
+				}
+				else{
+					curPage+=1;
+					if(curPage == totalPage){
+						lPage.onclick();
+					}
+					else{
+					nowPage.innerHTML = curPage;
+					mainDiv.innerHTML = "";
+					for(var i=1;i<=numInput;i++){
+						var mCompanyId = companyJson.data[i+numInput*(curPage-1)-1].companyId;
+						var mCompanyIntor = companyJson.data[i+numInput*(curPage-1)-1].companyIntro;
+						var mCompanyManName = companyJson.data[i+numInput*(curPage-1)-1].companyManName;
+						var mCompanyManPwd = companyJson.data[i+numInput*(curPage-1)-1].companyManPwd;
+						var mCompanyName = companyJson.data[i+numInput*(curPage-1)-1].companyName;
+						var mCompanyPhone = companyJson.data[i+numInput*(curPage-1)-1].companyPhone;
+						
+						var myDiv = document.createElement("div");//用来显示公司的名称
+						myDiv.className = "myDivClass";
+						var myH5 = document.createElement("h5");//用来显示公司的描述
+						var pPhone = document.createElement("p");//联系方式
+						var pPeople = document.createElement("p");//联系人
+						var pIntor = document.createElement("p");//公司介绍
+						myH5.innerHTML =  mCompanyName;
+						pIntor.innerHTML = mCompanyIntor;
+						pPeople.innerHTML = mCompanyManName;
+						pPhone.innerHTML = mCompanyPhone;
+						
+						myDiv.appendChild(myH5);
+						myDiv.appendChild(pIntor);
+						myDiv.appendChild(pPeople);
+						myDiv.appendChild(pPhone);
+						mainDiv.appendChild(myDiv);
+					}
+					mainDiv.appendChild(myDiv);
+				}
+				}
+			}
+			
+	
+			
+		}
+		
+		window.document.onkeydown = function(e){
+			//var ev = document.all?window.event:e;
+			if(e.keyCode == 13){
+				$.makeDiv();
+			}
+		}
+		
+		
+		
+	});//不需要等到图片这些加载完就可以直接的执行,并且可以出现多次
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- 外部样式-->
+<link rel="stylesheet" type="text/css" href="../CSS/CompanyRegister.css" />
+<script type="text/javascript">
+    
+    function  CompanyCode1() {
+		if(document.getElementById("CompanyCode").value=="不能输入特殊字符")	
+			document.getElementById("CompanyCode").value="";
+	}
+   
+    
+    function Submit() {
+    	if(document.getElementById("CompanyCode").value=="")
+		{
+			alert("用户名不能为空");
+			document.getElementById("CompanyCode").focus();
+		}
+    	else if(document.getElementById("CompanyPwd").value==""){
+    		alert("密码不能为空");
+			document.getElementById("CompanyPwd").focus();
+    		
+    	}
+    	else if(document.getElementById("ConfirmCompanyPwd").value==""){
+    		alert("确认密码不能为空");
+			document.getElementById("ConfirmCompanyPwd").focus();
+    	}
+	}
+    function CheckCompanyPwd() {
+		var reg=new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+		var pwd=document.getElementById("CompanyPwd").value;
+		if(pwd){
+			if(!reg.test(document.getElementById("CompanyPwd").value))
+			{
+				alert("密码格式不正确");
+				document.getElementById("CompanyPwd").value="";
+				document.getElementById("CompanyPwd").focus();
+			}
+		}
+	}
+    function CheckCompanyPwd1() {
+    	var reg=new RegExp(/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/);
+		var pwd=document.getElementById("CompanyPwd").value;
+		var confirm=document.getElementById("ConfirmCompanyPwd").value;
+		if(pwd&&confirm){
+			if(pwd==confirm){
+				
+			}
+			else{
+				alert("两次输入密码不同");
+				document.getElementById("ConfirmCompanyPwd").value="";
+				document.getElementById("ConfirmCompanyPwd").focus();
+			}
+		}
+	}
+    
+    
+</script>
+<title>企业注册页面</title>
+</head>
+<body>
+    <div align="center">
+        <form method="get" name="CompanyRegister" action="">
+            <table border="0" width="600" height="80">
+                <tr>
+                    <td width="50%" align="left" colspan="2"><p style="color: purple;">企业注册</p></td>
+                </tr>
+            </table>
+            <table class="registerTable" width="600">
+                <tr>
+                    <td width="30%" align="right" height="60">
+                        <p class="defaultText">企业账号：</p>
+                    </td>
+                    <td width="70%" align="left"><input class="registerText" value="不能输入特殊字符"
+                        name="CompanyCode" id="CompanyCode" type="text"  onfocus="CompanyCode1()" ></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">设置密码：</p>
+                        
+                    </td>
+                    <td align="left"><input class="registerText" name="CompanyPwd" id="CompanyPwd" type="password" value="" onblur="CheckCompanyPwd()" >
+                    <span class="tp_txt"  >密码必须包含数字和字母</span></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">确认密码：</p>
+                    </td>
+                    <td align="left"><input class="registerText" id="ConfirmCompanyPwd"
+                        name="ConfirmCompanyPwd" type="password" value="" onblur="CheckCompanyPwd1()">
+                        <span class="tp_txt"  >请确认两次密码输入相同</span></td>
+                </tr>
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">企业名称：</p>
+                        
+                    </td>
+                    <td align="left"><input class="registerText" id="CompanyName"
+                        name="CompanyName" type="password" value="" onblur="">
+                        <span class="tp_txt">请勿输入特殊字符</span></td>
+                </tr>
+                
+                
+                <tr>
+                    <td align="right" height="60">
+                        <p class="defaultText">企业状态：</p>
+                    </td>
+                    <td align="left"><select class="registerSelect"
+                        name="CompanyStatus" id="CompanyStatus" onchange="">
+                        
+                            <option value="营业" selected="selected">营业</option>
+                            <option value="停业">停业</option>
+                            <option value="关闭">关闭</option>
+                            <option value="筹建">筹建</option>
+                            <option value="其他">其他</option>
+                            
+                    </select> </td>
+                </tr>
+                
+                <tr>
+                    <td align="right" height="100">
+                        <p class="defaultText">企业电话：</p>
+                    </td>
+                    <td align="left">
+							<input type="text" name="CompanyPhone" id="CompanyPhone" class=""/>
+						
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right" height="130">
+                        <p class="defaultText">备注信息：</p>
+                    </td>
+                    <td align="left"><textarea class="registerText" rows="4"
+                            cols="45" name="CompanyRemarks" id="CompanyRemarks">
+                    </textarea></td>
+                </tr>
+       			
+                
+                <tr>
+                    <td align="center" height="60"> </td>
+                    <td align="left" height="60"><input class="registerButton"
+                        id="registerUser" name="registerUser" type="submit" value="立即注册" onclick="Submit()"></td>
+                </tr>
+            </table>
+        </form>
+        <p style="font-family: 幼圆; font-size: 15px; color: gray;">版权所有 © 2014-2015
+            YY招聘网</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+*{
+	margin:0px;
+	padding:0px;
+}
+
+body{
+	font-size:62.5%;
+}
+
+#Header{
+	width:100%;
+	height:46px;
+	background-color:#202833;
+}
+
+#Header .Header-Logo{
+	width:200px;
+	margin-left:195px;
+	height:46px;
+	display:inline-block;
+	float: left;
+}
+
+#Header .Header-Logo a{
+	display: inline-block;
+	width:70%;
+	height:33px;
+	margin-top:10px;
+	margin-bottom: 3px;
+	float:left;
+}
+
+#Header .Header-Logo-Right{
+	width:500px;
+	height:100%;
+	display:inline-block;
+}
+
+#Header .Header-Logo-Right ul{
+	display:inline-block;
+	width:100%;
+	height:100%;
+}
+
+#Header .Header-Logo-Right ul li{
+	display:inline-block;
+	width:80px;
+	height:100%;
+}
+
+#Header .Header-Logo-Right ul li a{
+	display: inline-block;
+	text-decoration: none;
+	font-size:1.5em;
+	color:white;
+	line-height:2;
+	margin-left:10px;
+	margin-top:6px;
+}
+
+#Content{
+	width:100%;
+	height:1000px;
+	background:rgba(0,0,0,0) url("../images/dj-content-wrap-after-index_1.jpg") repeat-x scroll 0 0;
+}
+
+#Content .Content-Background{
+	width:1500px;
+	height:82px;
+	background:rgba(0,0,0,0) url("../images/dj-content-wrap-after-index-tit-v2_1.jpg") no-repeat scroll center 0;
+}
+
+#Content .Content-Background-Content{
+	box-shadow: 0 0 10px rgba(0,0,0,0.2);
+	width: 960px;
+	margin:0 auto;
+	height:700px;
+	background: white;
+}
+
+

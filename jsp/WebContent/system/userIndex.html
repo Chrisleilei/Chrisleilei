@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title>用户主页面</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="../jquery/jquery-1.11.3.js"></script>
+	<link rel="stylesheet" href="../CSS/userIndex.css">
+</head>
+<body>
+	<div id="Header">
+		<div class="Header-Logo">
+			<a href="http://www.baidu.com">
+				<img src="../images/yy.png" alt="YY招聘网">
+			</a>
+		</div>
+		<div class="Header-Logo-Right">
+			<ul>
+				<li>
+					<a href="http://www.baidu.com">我的档案</a>
+				</li><li>
+					<a id="getCompany" href="./CompanyInfo.html">公司</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="Content">
+		<div class="Content-Background"></div>
+		<div class="Content-Background-Content"></div>
+	</div>
+	
+	<script>
+		document.getElementById("getCompany").onclick = function(){
+			alert("yy");
+		}
+	</script>
+</body>
+</html>

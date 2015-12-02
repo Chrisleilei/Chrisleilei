@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC     
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"     
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 实现Struts和servlet共存 -->
+	<constant name="struts.action.extension" value="action"></constant>
+	<constant name="struts.multipart.saveDir" value="/tmp"></constant>
+	<constant name="struts.multipart.maxSize" value="20971520" />
+	<include file="../conf/struts-user.xml" />
+	<include file="../conf/struts-company.xml" />
+</struts>  
